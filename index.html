@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>How Hungry Is AI? · 1-minute story</title>
+<meta name="description" content="A one-minute animated story about AI's energy use and how Agentic AI @Edge picks the leanest setup. TU Dresden research by Fatima Rani.">
+<meta name="theme-color" content="#0c1d16">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Sans:wght@400..700&family=JetBrains+Mono:wght@400..600&display=swap">
+<style>
+/* The story is a dark, video-like player in both themes, so it carries one palette. */
+:root{
+  --console:#0c1d16; --console-2:#13281f; --console-ink:#dcebe1; --console-dim:#88a596; --console-line:rgba(127,191,58,.2);
+  --console-ok:#8fd14f; --console-warn:#f2b441; --console-alert:#f06b5b;
+  --font-display:"Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --font-body:"Instrument Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --font-data:"JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--console);color:var(--console-ink);font:400 1rem/1.5 var(--font-body);-webkit-font-smoothing:antialiased;overflow:hidden}
+h3{margin:0}
+.player{position:fixed;inset:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:4px;padding:calc(12px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(14px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.ov-bar{display:flex;gap:12px;align-items:center;justify-content:space-between}
+.back{flex:none;display:inline-flex;align-items:center;gap:.4em;min-height:42px;padding:0 14px;border:1px solid var(--console-line);border-radius:999px;color:var(--console-ink);text-decoration:none;font:600 .9rem/1 var(--font-body);white-space:nowrap}
+.back:hover,.icon-btn:hover{border-color:var(--console-ok)}
+.icon-btn{width:42px;height:42px;border-radius:50%;border:1px solid var(--console-line);background:var(--console);color:var(--console-ink);cursor:pointer;display:grid;place-items:center;font:500 1.15rem/1 var(--font-data);flex:none}
+:focus-visible{outline:2px solid var(--console-ok);outline-offset:3px}
+@keyframes blink{50%{opacity:0}}
+/* ---------- 1-minute story ---------- */
+.story{grid-template-rows:auto minmax(0,1fr) auto;background:var(--console)}
+.segs{display:flex;gap:5px;flex:1}
+.segs i{flex:1;height:3px;border-radius:2px;background:var(--console-line);overflow:hidden;display:block}
+.segs i b{display:block;height:100%;width:0;background:var(--console-ok)}
+.segs i.past b{width:100%}
+.stage{position:relative;min-height:0;display:grid;place-items:center;overflow:hidden}
+.scene{position:absolute;inset:0;display:grid;grid-template-columns:minmax(0,1fr);align-content:center;justify-items:center;gap:clamp(10px,2.2vh,22px);text-align:center;padding:12px;opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease;pointer-events:none}
+.scene.on{opacity:1;transform:none;pointer-events:auto}
+.scene .kick{font:500 .8rem/1 var(--font-data);letter-spacing:.16em;text-transform:uppercase;color:var(--console-ok)}
+.scene h3{font:700 clamp(1.4rem,3.4vw,2.7rem)/1.1 var(--font-display);max-width:24ch;color:var(--console-ink);letter-spacing:-.025em}
+.scene h3 em{font-style:normal;color:var(--console-warn)}
+.scene .viz{order:-1;width:min(820px,100%,86vh)}
+.scene .viz svg{display:block;width:100%;height:auto;overflow:hidden}
+.scene .flow{order:-1}
+/* ---------- story illustrations (the overlay is dark in both themes) ---------- */
+.story{--st-sun:#ffcf4d;--st-sun-2:#ff9d3c;--st-cloud:#e3eee8;--st-ocean:#2a73a6;--st-ocean-2:#0f3550;--st-land:#69b65b;--st-land-2:#2c6a38;--st-bldg:#1d3b2f;--st-bldg-2:#2c5243;--st-win:#ffd36b;--st-steel:#a9bfb3;--st-skin:#d9a77e;--st-vest:#f28c28;--st-box:#5d4c31}
+.st-defs{position:absolute;width:0;height:0;overflow:hidden}
+.stars{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.stars circle{fill:var(--console-ink);opacity:.55;animation:twinkle 3.2s ease-in-out infinite}
+.st-lbl{font:600 20px var(--font-data);fill:var(--console-ink)}
+.st-sm{font:500 15px var(--font-data);fill:var(--console-dim)}
+.st-ground{stroke:var(--console-line);stroke-width:2}
+.st-device{fill:var(--console-2);stroke:var(--st-steel);stroke-width:2}
+.st-screen{fill:#123a2b}
+.st-txt{fill:var(--console-dim);opacity:.7}
+.st-bubble{fill:var(--console-ink)}
+.st-q{font:800 30px var(--font-display);fill:var(--console)}
+.st-track{fill:none;stroke:var(--console-line);stroke-width:2;stroke-dasharray:2 8}
+.st-packets{fill:none;stroke:var(--console-ok);stroke-width:7;stroke-linecap:round;stroke-dasharray:.1 26}
+.st-cloud{fill:var(--st-cloud)}
+.cloud-t{font:600 15px var(--font-data);fill:var(--console)}
+.st-bldg{fill:var(--st-bldg);stroke:rgba(143,209,79,.35);stroke-width:1.5}
+.st-bldg-2{fill:var(--st-bldg-2)}
+.st-unit{fill:#0c2219}
+.led{fill:var(--console-ok)} .led.w{fill:var(--console-warn)} .led.rec{fill:var(--console-alert)}
+.fan-box{fill:var(--console-2);stroke:var(--st-steel);stroke-width:2}
+.fan-blade{fill:var(--st-steel)}
+.heat{fill:none;stroke:var(--console-warn);stroke-width:2.5;stroke-linecap:round;opacity:0}
+.st-wire{fill:none;stroke:#33493f;stroke-width:5;stroke-linecap:round}
+.st-current{fill:none;stroke:var(--console-warn);stroke-width:3;stroke-linecap:round;stroke-dasharray:6 14}
+.badge-b{fill:var(--console-warn)} .bolt-d{fill:var(--console)} .bolt{fill:var(--console-warn)}
+.sun-rays{fill:none;stroke:var(--st-sun);stroke-width:4;stroke-linecap:round}
+.land{fill:var(--st-land)} .wisp{fill:#fff;opacity:.5} .citylight{fill:var(--st-win)}
+.earth-rim{fill:none;stroke:rgba(170,225,255,.55);stroke-width:1.5}
+.win{fill:var(--st-win);opacity:.9} .win.g{fill:var(--console-ok)}
+.chip{fill:var(--console-2);stroke-width:3} .chip.lean{stroke:var(--console-ok)} .chip.hungry{stroke:var(--console-warn)}
+.pins{fill:none;stroke-width:3;stroke-linecap:round} .pins.lean{stroke:var(--console-ok)} .pins.hungry{stroke:var(--console-warn)}
+.eye{fill:var(--console-ink)} .leaf{fill:var(--console-ok)}
+.smile{fill:none;stroke:var(--console-ink);stroke-width:2.5;stroke-linecap:round}
+.mouth{fill:var(--console);stroke:var(--console-ink);stroke-width:2.5}
+.bar-lean{fill:var(--console-ok)} .bar-hungry{fill:var(--console-warn)}
+.axis{fill:none;stroke:var(--console-dim);stroke-width:2;stroke-linejoin:round}
+.box-o{fill:none;stroke:var(--console-line);stroke-width:1.5;stroke-dasharray:4 4}
+.box-g{fill:var(--console-ok);opacity:.88} .box-b{fill:var(--console-dim);opacity:.8}
+.done-p{fill:var(--console-ink)} .done-t{font:700 13px var(--font-data);fill:var(--console)}
+.card{fill:#26332d;stroke:var(--st-steel);stroke-width:1.5} .steel{fill:var(--st-steel)} .gold{fill:var(--console-warn)}
+.pcb{fill:#1f5a3a;stroke:var(--console-ok);stroke-width:1.5} .soc{fill:var(--console)}
+.watch{fill:var(--console-2);stroke:var(--console-ink);stroke-width:3} .watch-btn{fill:var(--console-ink)} .watch-pin{fill:var(--console-warn)}
+.hand{stroke:var(--console-warn);stroke-width:3;stroke-linecap:round}
+.shelves{opacity:.6} .shelf{fill:#36544a} .box1{fill:var(--st-box)} .box2{fill:#7a6440}
+.pole{fill:var(--st-steel);opacity:.55} .cam{fill:var(--st-steel)} .lens{fill:var(--console);stroke:var(--console-ok);stroke-width:2}
+.jeans{fill:#3b5f86} .vest{fill:var(--st-vest)} .stripe{fill:#fff;opacity:.75} .skin{fill:var(--st-skin)} .hat{fill:#ffd34d}
+.mast{fill:#5d6d65} .guard{fill:none;stroke:#7d8f86;stroke-width:4;stroke-linejoin:round}
+.fork-body{fill:var(--console-warn)} .fork-cw{fill:#c98d22} .tyre{fill:#111a16;stroke:#3d4f46;stroke-width:2} .hub{stroke:var(--st-steel);stroke-width:2.5;stroke-linecap:round}
+.det{fill:none;stroke:var(--console-ok);stroke-width:2.5} .det.w{stroke:var(--console-warn)}
+.det-tag{fill:var(--console-ok)} .det-tag.w{fill:var(--console-warn)} .det-t{font:700 12px var(--font-data);fill:var(--console)}
+.think{fill:var(--console-ink)} .think-t{font:600 15px var(--font-data);fill:var(--console)}
+.opt-p{fill:var(--console-ok)} .opt-t{font:700 13px var(--font-data);fill:var(--console)}
+.alert-b{fill:var(--console-alert)} .alert-t{font:800 22px var(--font-display);fill:#fff}
+.g-track{fill:none;stroke:var(--console-line);stroke-width:18;stroke-linecap:round}
+.g-arc{fill:none;stroke-width:18;stroke-linecap:round}
+.gt-b{stroke:var(--console-ink);stroke-width:3} .gt-s{stroke:var(--console-dim);stroke-width:2}
+.g-needle{fill:var(--console-ink)} .g-pivot{fill:var(--console-ok);stroke:var(--console);stroke-width:4}
+.g-num{font:700 56px var(--font-data);fill:var(--console-ink)} .g-unit{font-size:26px;fill:var(--console-dim)}
+.g-fps{font:700 52px var(--font-data);fill:var(--console-ok)}
+.tg-bg{fill:var(--console-2);stroke:var(--console-line);stroke-width:2} .tg-knob{fill:var(--console-ok)}
+.tg-a,.tg-b{font:700 16px var(--font-data)} .tg-a{fill:var(--console-dim)} .tg-b{fill:var(--console)}
+.panel{fill:#2b5d86;stroke:#9fd0f2;stroke-width:1} .glint{fill:#fff;opacity:0}
+.tower{fill:#e3ece7} .tree-t{fill:#5b4630} .tree-c{fill:var(--st-land-2)} .tree-c2{fill:var(--st-land)}
+.horizon-rim{fill:none;stroke:rgba(190,235,255,.6);stroke-width:3}
+.fall{opacity:0}
+/* motion: base styles are the end state, so reduced motion shows finished pictures */
+.spin,.hand-g,.roll,.sweep{transform-origin:0 0}
+.pop,.up,.gx,.chomp,.pulse,.blinker{transform-box:fill-box}
+.pop{transform-origin:var(--o,50% 50%)} .up{transform-origin:50% 100%} .gx{transform-origin:0 50%}
+.chomp,.pulse,.blinker{transform-origin:50% 50%}
+.scene.on .pop{animation:pop .7s cubic-bezier(.2,1.5,.4,1) var(--d,0s) both}
+.scene.on .up{animation:up 1.3s cubic-bezier(.2,.8,.2,1) var(--d,0s) both}
+.scene.on .gx{animation:gx var(--t,1.3s) var(--e,cubic-bezier(.2,.8,.2,1)) var(--d,0s) both}
+.scene.on .fi{animation:fadein .6s ease var(--d,0s) both}
+.scene.on .spin{animation:spin var(--t,2s) linear infinite}
+.scene.on .drift{animation:drift var(--t,6s) ease-in-out infinite alternate}
+.scene.on .led{animation:blink var(--t,1.4s) steps(1,end) var(--d,0s) infinite}
+.scene.on .win{animation:flick var(--t,3s) steps(1,end) var(--d,0s) infinite}
+.scene.on .heat{animation:heat 2.1s ease-out var(--d,0s) infinite}
+.scene.on .st-packets{animation:dashmove 1.1s linear infinite,fadein .5s ease .9s both}
+.scene.on .st-current{animation:dashmove2 .8s linear infinite}
+.scene.on .pulse{animation:pulse 1.2s ease-in-out infinite}
+.scene.on .fall{animation:fall 2.5s ease-in var(--d,0s) infinite}
+.scene.on .chomp{animation:chomp .32s ease-in-out infinite alternate}
+.scene.on .blinker{animation:eyeblink 3.6s ease infinite}
+.scene.on .sheen{animation:sheen var(--t,1.6s) linear var(--d,0s) infinite}
+.scene.on .citylight{animation:glow 2.4s ease-in-out var(--d,0s) infinite}
+.scene.on .walk{animation:walk 3s ease-in-out infinite alternate}
+.scene.on .drive{animation:drive 2.6s cubic-bezier(.25,.8,.3,1) both}
+.scene.on .roll{animation:roll 2.6s cubic-bezier(.25,.8,.3,1) both}
+.scene.on .sweep{animation:sweep 2.4s ease-in-out infinite alternate}
+.scene.on .hand-g{animation:spin 6.9s linear .6s both}
+.scene.on .sunrise{animation:sunrise 3.4s cubic-bezier(.2,.7,.2,1) both}
+.scene.on .glint{animation:glint 3.2s ease var(--d,0s) infinite}
+.scene.on .tg-knob{animation:knob .5s cubic-bezier(.3,1.3,.5,1) .9s both}
+.scene.on .tg-a{animation:tga .3s ease 1s both}
+.scene.on .tg-b{animation:tgb .3s ease 1s both}
+@keyframes twinkle{50%{opacity:.08}}
+@keyframes pop{from{transform:scale(0);opacity:0}}
+@keyframes up{from{transform:scaleY(0)}}
+@keyframes gx{from{transform:scaleX(0)}}
+@keyframes fadein{from{opacity:0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes drift{from{transform:translateX(calc(-1 * var(--dx,14px)))}to{transform:translateX(var(--dx,14px))}}
+@keyframes flick{0%{opacity:.9}60%{opacity:.3}}
+@keyframes heat{0%{opacity:0;transform:translateY(0)}30%{opacity:.75}100%{opacity:0;transform:translateY(-30px)}}
+@keyframes dashmove{to{stroke-dashoffset:-26.1}}
+@keyframes dashmove2{to{stroke-dashoffset:-20}}
+@keyframes pulse{50%{transform:scale(1.14)}}
+@keyframes fall{0%{opacity:0;transform:translateY(0)}20%,80%{opacity:1}100%{opacity:0;transform:translateY(var(--dy,30px))}}
+@keyframes chomp{from{transform:scaleY(.2)}}
+@keyframes eyeblink{0%,92%,100%{transform:none}95%{transform:scaleY(.1)}}
+@keyframes sheen{to{transform:translateX(var(--x1,300px))}}
+@keyframes glow{50%{opacity:.3}}
+@keyframes walk{from{transform:translateX(-26px)}to{transform:translateX(26px)}}
+@keyframes drive{from{transform:translateX(180px)}}
+@keyframes roll{from{transform:rotate(800deg)}}
+@keyframes sweep{from{transform:rotate(-4deg)}to{transform:rotate(5deg)}}
+@keyframes sunrise{from{transform:translateY(96px)}}
+@keyframes glint{0%,70%{opacity:0}80%{opacity:.75}100%{opacity:0}}
+@keyframes knob{from{transform:translateX(-66px)}}
+@keyframes tga{from{fill:var(--console)}}
+@keyframes tgb{from{fill:var(--console-dim)}}
+.story.paused .stage *{animation-play-state:paused!important}
+/* scene 5 steps, switched on by the player clock */
+.stp{opacity:0;transition:opacity .45s ease}
+.stp.pp{transform-box:fill-box;transform-origin:50% 100%;transform:scale(.6);transition:opacity .45s ease,transform .55s cubic-bezier(.2,1.5,.4,1)}
+.scene.st1 .stp1,.scene.st2 .stp2,.scene.st3 .stp3,.scene.st4 .stp4,.scene.st5 .stp5{opacity:1;transform:none}
+
+.flow{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;max-width:min(760px,100%)}
+.flow span{font:600 clamp(.9rem,2vw,1.15rem)/1 var(--font-display);padding:clamp(10px,1.6vw,14px) clamp(12px,2vw,18px);border-radius:12px;border:1px solid var(--console-line);color:var(--console-dim);transition:all .4s}
+.flow span.lit{border-color:var(--console-ok);color:var(--console);background:var(--console-ok)}
+.story-ctl{display:flex;justify-content:center;gap:12px;align-items:center}
+.story-ctl .cap{font:500 .8rem/1 var(--font-data);color:var(--console-dim);min-width:8ch;text-align:center}
+@media (max-width:520px){.back .lbl{display:none}}
+@media (prefers-reduced-motion: reduce){
+  .scene{transition:none}
+  .story .stage *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<main class="player story" id="story" aria-label="One-minute story: How hungry is AI?">
+  <div class="ov-bar">
+    <a class="back" href="../index.html" aria-label="Back to the website">←<span class="lbl"> Website</span></a>
+    <div class="segs" id="segs"></div>
+    <button class="icon-btn" type="button" id="stFull" aria-label="Full screen" hidden>⛶</button>
+  </div>
+  <div class="stage" id="stage">
+    <svg class="st-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs>
+      <symbol id="i-cloud" viewBox="0 0 120 60"><path d="M30 56C12 56 4 44 12 33C8 19 26 10 38 19C44 4 70 0 79 16C92 8 110 15 107 31C120 35 119 56 100 56Z"/></symbol>
+      <symbol id="i-bolt" viewBox="0 0 18 22"><path d="M10 0 0 13h7l-2 9 11-14H9z"/></symbol>
+      <radialGradient id="gSun"><stop offset="0" stop-color="#fff7d1"/><stop offset=".55" style="stop-color:var(--st-sun)"/><stop offset="1" style="stop-color:var(--st-sun-2)"/></radialGradient>
+      <radialGradient id="gGlow"><stop offset="0" stop-color="#ffcf4d" stop-opacity=".55"/><stop offset=".5" stop-color="#ffa53c" stop-opacity=".16"/><stop offset="1" stop-color="#ffa53c" stop-opacity="0"/></radialGradient>
+      <radialGradient id="gOcean" cx=".36" cy=".3" r=".85"><stop offset="0" stop-color="#5bb3e6"/><stop offset=".55" style="stop-color:var(--st-ocean)"/><stop offset="1" style="stop-color:var(--st-ocean-2)"/></radialGradient>
+      <linearGradient id="gShade" x1=".15" y1=".05" x2=".95" y2=".95"><stop offset=".45" stop-color="#030a08" stop-opacity="0"/><stop offset="1" stop-color="#030a08" stop-opacity=".75"/></linearGradient>
+      <radialGradient id="gAtmo"><stop offset=".84" stop-color="#78c8ff" stop-opacity="0"/><stop offset=".875" stop-color="#78c8ff" stop-opacity=".5"/><stop offset="1" stop-color="#78c8ff" stop-opacity="0"/></radialGradient>
+      <linearGradient id="gCone"><stop offset="0" stop-color="#8fd14f" stop-opacity=".45"/><stop offset="1" stop-color="#8fd14f" stop-opacity="0"/></linearGradient>
+      <linearGradient id="gSheen"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".5"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+      <linearGradient id="gGauge" gradientUnits="userSpaceOnUse" x1="184" y1="0" x2="536" y2="0"><stop offset="0" stop-color="#8fd14f"/><stop offset=".55" stop-color="#d9d24a"/><stop offset=".8" stop-color="#f2b441"/><stop offset="1" stop-color="#f06b5b"/></linearGradient>
+      <linearGradient id="gDawn" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="320"><stop offset="0" stop-color="#0c1d16" stop-opacity="0"/><stop offset=".42" stop-color="#174452"/><stop offset=".72" stop-color="#d9874f"/><stop offset=".86" stop-color="#ffd27a"/></linearGradient>
+      <linearGradient id="gLand" gradientUnits="userSpaceOnUse" x1="0" y1="236" x2="0" y2="320"><stop offset="0" style="stop-color:var(--st-land)"/><stop offset="1" style="stop-color:var(--st-land-2)"/></linearGradient>
+      <radialGradient id="gFade" r=".5"><stop offset=".62" stop-color="#fff"/><stop offset="1" stop-color="#000"/></radialGradient>
+      <mask id="mFade" maskUnits="userSpaceOnUse" x="0" y="0" width="720" height="320"><rect width="720" height="320" fill="url(#gFade)"/></mask>
+      <clipPath id="cpEarth"><circle r="114"/></clipPath>
+      <clipPath id="cpBarA"><rect x="150" y="68" width="100" height="36" rx="6"/></clipPath>
+      <clipPath id="cpBarB"><rect x="150" y="208" width="511" height="36" rx="6"/></clipPath>
+    </defs></svg>
+    <svg class="stars" id="stars" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+
+    <div class="scene">
+      <span class="kick">Every question has a price</span>
+      <h3>Each time you ask AI something, a machine somewhere <em>draws power.</em></h3>
+      <div class="viz"><svg viewBox="0 0 720 320" aria-hidden="true">
+        <line x1="0" y1="290" x2="720" y2="290" class="st-ground"/>
+        <path class="st-track" d="M150 112C210 52 270 50 318 88C380 136 470 128 548 166"/>
+        <path class="st-packets" d="M150 112C210 52 270 50 318 88C380 136 470 128 548 166"/>
+        <g class="drift" style="--dx:14px;--t:5s">
+          <use href="#i-cloud" x="282" y="30" width="170" height="85" class="st-cloud"/>
+          <text x="367" y="94" text-anchor="middle" class="cloud-t">“the cloud”</text>
+        </g>
+        <g class="pop" style="--d:.15s;--o:50% 100%">
+          <rect x="62" y="150" width="76" height="140" rx="14" class="st-device"/>
+          <rect x="69" y="163" width="62" height="106" rx="6" class="st-screen"/>
+          <rect x="77" y="178" width="36" height="7" rx="3.5" class="st-txt"/>
+          <rect x="77" y="192" width="46" height="7" rx="3.5" class="st-txt"/>
+          <rect x="77" y="206" width="28" height="7" rx="3.5" class="st-txt"/>
+          <rect x="88" y="276" width="24" height="5" rx="2.5" class="st-txt"/>
+        </g>
+        <g class="pop" style="--d:.6s;--o:30% 100%">
+          <rect x="64" y="84" width="84" height="50" rx="16" class="st-bubble"/>
+          <path d="M86 132 84 148 102 133Z" class="st-bubble"/>
+          <text x="106" y="121" text-anchor="middle" class="st-q">?</text>
+        </g>
+        <path class="st-wire" d="M372 290C420 290 446 268 520 268"/>
+        <path class="st-current" d="M372 290C420 290 446 268 520 268"/>
+        <g transform="translate(446 236)"><g class="pulse"><circle r="18" class="badge-b"/><use href="#i-bolt" x="-7" y="-9" width="14" height="18" class="bolt-d"/></g></g>
+        <g class="pop" style="--d:.3s;--o:50% 100%">
+          <rect x="514" y="164" width="182" height="12" rx="4" class="st-bldg-2"/>
+          <rect x="520" y="174" width="170" height="116" rx="4" class="st-bldg"/>
+          <g id="dcRacks"></g>
+          <g transform="translate(556 152)"><circle r="12" class="fan-box"/><g class="spin" style="--t:.7s"><path d="M0-9 3 0 0 9-3 0ZM-9 0 0-3 9 0 0 3Z" class="fan-blade"/></g></g>
+          <g transform="translate(605 152)"><circle r="12" class="fan-box"/><g class="spin" style="--t:.55s"><path d="M0-9 3 0 0 9-3 0ZM-9 0 0-3 9 0 0 3Z" class="fan-blade"/></g></g>
+          <g transform="translate(654 152)"><circle r="12" class="fan-box"/><g class="spin" style="--t:.8s"><path d="M0-9 3 0 0 9-3 0ZM-9 0 0-3 9 0 0 3Z" class="fan-blade"/></g></g>
+        </g>
+        <path class="heat" style="--d:.2s" d="M556 134q6-7 0-14t0-14"/>
+        <path class="heat" style="--d:.9s" d="M605 134q6-7 0-14t0-14"/>
+        <path class="heat" style="--d:1.6s" d="M654 134q6-7 0-14t0-14"/>
+        <text x="605" y="314" text-anchor="middle" class="st-sm">a data centre</text>
+      </svg></div>
+    </div>
+
+    <div class="scene">
+      <span class="kick">The trend</span>
+      <h3>EU data centres are on track to use <em>115 TWh</em> of electricity by 2030.</h3>
+      <div class="viz"><svg viewBox="0 0 720 320" aria-hidden="true">
+        <g transform="translate(54 58)">
+          <circle r="54" fill="url(#gGlow)"/>
+          <g class="spin" style="--t:30s"><path class="sun-rays" d="M0-31V-43M0 31V43M-31 0H-43M31 0H43M21.9-21.9 30.4-30.4M-21.9 21.9-30.4 30.4M21.9 21.9 30.4 30.4M-21.9-21.9-30.4-30.4"/></g>
+          <circle r="22" fill="url(#gSun)"/>
+        </g>
+        <g transform="translate(214 176)">
+          <circle r="134" fill="url(#gAtmo)"/>
+          <circle r="114" fill="url(#gOcean)"/>
+          <g clip-path="url(#cpEarth)">
+            <g transform="translate(-170 -170)" class="land">
+              <path d="M150 168C165 158 200 156 222 166C236 172 246 186 252 196C248 210 240 222 232 238C224 256 214 270 204 276C196 266 192 250 186 236C180 222 168 214 156 206C146 198 142 182 150 168Z"/>
+              <path d="M128 140C132 128 140 118 150 116C152 104 160 92 172 88C178 76 190 66 202 70C196 80 194 90 200 98C210 96 222 100 232 108C244 112 256 112 266 118L270 140C258 146 244 146 234 150C226 156 214 152 206 148C198 154 190 158 182 154C176 148 168 150 160 152C150 154 136 152 128 140Z"/>
+              <path d="M188 64C196 50 210 44 218 50C214 60 208 72 200 80C194 76 188 72 188 64Z"/>
+              <path d="M150 100C146 92 150 84 156 84C160 90 160 98 156 104Z"/>
+              <path d="M262 112C272 116 284 124 290 140V190C278 184 268 176 258 170C250 162 246 156 240 152Z"/>
+              <path d="M58 120C66 116 74 122 78 134C82 150 76 170 82 186C88 204 84 226 72 240H50V120Z"/>
+            </g>
+            <g class="drift" style="--dx:22px;--t:7s">
+              <ellipse cx="-58" cy="-44" rx="36" ry="6" class="wisp"/><ellipse cx="22" cy="18" rx="44" ry="7" class="wisp"/>
+              <ellipse cx="-30" cy="72" rx="30" ry="5" class="wisp"/><ellipse cx="58" cy="-78" rx="26" ry="5" class="wisp"/>
+            </g>
+            <circle r="114" fill="url(#gShade)"/>
+            <g transform="translate(-170 -170)">
+              <circle cx="153" cy="96" r="2.6" class="citylight" style="--d:0s"/><circle cx="166" cy="128" r="2.6" class="citylight" style="--d:.4s"/>
+              <circle cx="180" cy="117" r="2.6" class="citylight" style="--d:.8s"/><circle cx="194" cy="134" r="2.6" class="citylight" style="--d:1.2s"/>
+              <circle cx="206" cy="112" r="2.6" class="citylight" style="--d:.2s"/><circle cx="221" cy="126" r="2.6" class="citylight" style="--d:.6s"/>
+              <circle cx="237" cy="118" r="2.6" class="citylight" style="--d:1s"/><circle cx="176" cy="142" r="2.6" class="citylight" style="--d:1.4s"/>
+              <circle cx="250" cy="131" r="2.6" class="citylight" style="--d:.3s"/><circle cx="204" cy="64" r="2.6" class="citylight" style="--d:.9s"/>
+            </g>
+          </g>
+          <circle r="114" class="earth-rim"/>
+        </g>
+        <line x1="392" y1="292" x2="716" y2="292" class="st-ground"/>
+        <g class="up" style="--d:.5s">
+          <rect x="424" y="187" width="96" height="105" rx="4" class="st-bldg"/>
+          <g data-win="424,187,96,105"></g>
+        </g>
+        <g class="up" style="--d:1.5s">
+          <rect x="576" y="119.5" width="96" height="172.5" rx="4" class="st-bldg"/>
+          <g data-win="576,119.5,96,172.5"></g>
+        </g>
+        <text x="472" y="174" text-anchor="middle" class="st-lbl fi" style="--d:1.4s">70 TWh</text>
+        <text x="624" y="106" text-anchor="middle" class="st-lbl fi" style="--d:2.6s">115 TWh</text>
+        <text x="472" y="314" text-anchor="middle" class="st-sm">2024</text>
+        <text x="624" y="314" text-anchor="middle" class="st-sm">2030</text>
+      </svg></div>
+    </div>
+
+    <div class="scene">
+      <span class="kick">What we measured</span>
+      <h3>Same question, same device. The hungriest model used <em>5.1×</em> the energy of the leanest.</h3>
+      <div class="viz"><svg viewBox="0 0 720 300" aria-hidden="true">
+        <g class="fall" style="--d:.5s;--dy:26px"><use href="#i-bolt" x="51" y="2" width="18" height="22" class="bolt"/></g>
+        <g transform="translate(60 86)">
+          <path class="pins lean" d="M-14-28v-8M0-28v-8M14-28v-8M-14 28v8M0 28v8M14 28v8M-28-14h-8M-28 0h-8M-28 14h-8M28-14h8M28 0h8M28 14h8"/>
+          <rect x="-28" y="-28" width="56" height="56" rx="10" class="chip lean"/>
+          <g class="blinker"><circle cx="-10" cy="-5" r="3.5" class="eye"/><circle cx="10" cy="-5" r="3.5" class="eye"/></g>
+          <path d="M-9 8q9 8 18 0" class="smile"/>
+          <path d="M18-40c8-12 24-12 28-8c-2 12-16 18-28 8Z" class="leaf"/>
+        </g>
+        <g class="fall" style="--d:0s;--dy:34px"><use href="#i-bolt" x="51" y="128" width="18" height="22" class="bolt"/></g>
+        <g class="fall" style="--d:.5s;--dy:34px"><use href="#i-bolt" x="51" y="128" width="18" height="22" class="bolt"/></g>
+        <g class="fall" style="--d:1s;--dy:34px"><use href="#i-bolt" x="51" y="128" width="18" height="22" class="bolt"/></g>
+        <g class="fall" style="--d:1.5s;--dy:34px"><use href="#i-bolt" x="51" y="128" width="18" height="22" class="bolt"/></g>
+        <g class="fall" style="--d:2s;--dy:34px"><use href="#i-bolt" x="51" y="128" width="18" height="22" class="bolt"/></g>
+        <g transform="translate(60 226) scale(1.15)">
+          <path class="pins hungry" d="M-14-28v-8M0-28v-8M14-28v-8M-14 28v8M0 28v8M14 28v8M-28-14h-8M-28 0h-8M-28 14h-8M28-14h8M28 0h8M28 14h8"/>
+          <rect x="-28" y="-28" width="56" height="56" rx="10" class="chip hungry"/>
+          <path d="M-16-15-5-10M16-15 5-10" class="smile"/>
+          <g class="blinker"><circle cx="-10" cy="-5" r="3.5" class="eye"/><circle cx="10" cy="-5" r="3.5" class="eye"/></g>
+          <ellipse cx="0" cy="11" rx="11" ry="8" class="mouth chomp"/>
+        </g>
+        <text x="150" y="58" class="st-sm">Qwen2.5 1.5B</text>
+        <rect x="150" y="68" width="100" height="36" rx="6" class="bar-lean gx" style="--d:.4s"/>
+        <g clip-path="url(#cpBarA)"><rect x="50" y="68" width="60" height="36" fill="url(#gSheen)" class="sheen" style="--d:1.6s;--x1:260px"/></g>
+        <text x="262" y="93" class="st-lbl fi" style="--d:1.3s">36 J</text>
+        <text x="150" y="198" class="st-sm">Llama3.1 8B Q3</text>
+        <text x="661" y="198" text-anchor="end" class="st-lbl fi" style="--d:2.6s">184 J</text>
+        <rect x="150" y="208" width="511" height="36" rx="6" class="bar-hungry gx" style="--d:1.1s;--t:1.6s"/>
+        <g clip-path="url(#cpBarB)"><rect x="40" y="208" width="90" height="36" fill="url(#gSheen)" class="sheen" style="--d:2.8s;--t:1.4s;--x1:660px"/></g>
+        <text x="150" y="286" class="st-sm">energy per answer, in joules</text>
+      </svg></div>
+    </div>
+
+    <div class="scene">
+      <span class="kick">Energy = power × time</span>
+      <h3>A faster chip drew <em>7.5×</em> the power, finished in a tenth of the time, and used a quarter less energy.</h3>
+      <div class="viz"><svg viewBox="0 0 720 320" aria-hidden="true">
+        <path class="axis" d="M70 64V282H706M64 74 70 62 76 74M696 276 708 282 696 288"/>
+        <text x="80" y="70" class="st-sm">power</text>
+        <text x="700" y="306" text-anchor="end" class="st-sm">time</text>
+        <rect x="70" y="258" width="620" height="24" class="box-o"/>
+        <rect x="70" y="258" width="620" height="24" class="box-b gx" style="--t:6.1s;--d:.8s;--e:linear"/>
+        <rect x="70" y="102" width="61" height="180" class="box-o"/>
+        <rect x="70" y="102" width="61" height="180" class="box-g gx" style="--t:.62s;--d:.8s;--e:linear"/>
+        <text x="146" y="124" class="st-lbl">GPU</text>
+        <text x="146" y="146" class="st-sm">high power, fast</text>
+        <g transform="translate(146 160)">
+          <rect x="-4" y="-3" width="5" height="40" rx="1" class="steel"/>
+          <rect width="84" height="32" rx="5" class="card"/>
+          <rect x="16" y="32" width="50" height="4" class="gold"/>
+          <g transform="translate(24 16)"><circle r="12" class="fan-box"/><g class="spin" style="--t:.45s"><path d="M0-10 3 0 0 10-3 0ZM-10 0 0-3 10 0 0 3Z" class="fan-blade"/></g></g>
+          <g transform="translate(60 16)"><circle r="12" class="fan-box"/><g class="spin" style="--t:.45s"><path d="M0-10 3 0 0 10-3 0ZM-10 0 0-3 10 0 0 3Z" class="fan-blade"/></g></g>
+        </g>
+        <text x="400" y="178" text-anchor="middle" class="st-sm fi" style="--d:1.6s">area = energy used</text>
+        <g transform="translate(498 204)"><rect width="50" height="30" rx="4" class="pcb"/><rect x="15" y="7" width="20" height="16" rx="2" class="soc"/><circle cx="43" cy="7" r="2.4" class="led"/></g>
+        <text x="690" y="224" text-anchor="end" class="st-lbl">Small board</text>
+        <text x="690" y="246" text-anchor="end" class="st-sm">low power, slow</text>
+        <g class="pop" style="--d:1.45s"><rect x="71.5" y="110" width="58" height="22" rx="11" class="done-p"/><text x="100.5" y="125.5" text-anchor="middle" class="done-t">done ✓</text></g>
+        <g class="pop" style="--d:6.95s"><rect x="632" y="180" width="58" height="22" rx="11" class="done-p"/><text x="661" y="195.5" text-anchor="middle" class="done-t">done ✓</text></g>
+        <g transform="translate(654 86)">
+          <rect x="-5" y="-34" width="10" height="8" rx="2" class="watch-btn"/>
+          <circle r="24" class="watch"/>
+          <g class="hand-g"><line x1="0" y1="0" x2="0" y2="-17" class="hand"/></g>
+          <circle r="3" class="watch-pin"/>
+        </g>
+      </svg></div>
+    </div>
+
+    <div class="scene">
+      <span class="kick">Agentic AI @Edge</span>
+      <h3>Our agents see, reason and act on the edge, then <em>pick the leanest setup</em> on their own.</h3>
+      <div class="viz"><svg viewBox="0 0 720 272" aria-hidden="true">
+        <line x1="0" y1="236" x2="720" y2="236" class="st-ground"/>
+        <g class="shelves" data-shelf="372"></g>
+        <g class="shelves" data-shelf="556"></g>
+        <rect x="66" y="58" width="8" height="178" rx="2" class="pole"/>
+        <g class="stp stp1"><g transform="translate(102 70)"><g class="sweep"><path d="M0 0 610 36V170Z" fill="url(#gCone)"/></g></g></g>
+        <g transform="translate(70 62) rotate(14)"><rect x="-10" y="-12" width="42" height="22" rx="6" class="cam"/><circle cx="33" cy="-1" r="7" class="lens"/></g>
+        <circle cx="61" cy="51" r="3" class="led rec"/>
+        <rect x="34" y="200" width="72" height="30" rx="4" class="pcb"/><rect x="58" y="207" width="24" height="16" rx="2" class="soc"/><circle cx="97" cy="208" r="2.6" class="led"/>
+        <text x="70" y="262" text-anchor="middle" class="st-sm">edge device</text>
+        <g transform="translate(300 0)"><g class="walk">
+          <rect x="-9" y="200" width="7" height="36" rx="3" class="jeans"/>
+          <rect x="2" y="200" width="7" height="36" rx="3" class="jeans"/>
+          <rect x="-13" y="164" width="26" height="40" rx="9" class="vest"/>
+          <rect x="-13" y="182" width="26" height="4" class="stripe"/>
+          <circle cy="152" r="10" class="skin"/>
+          <path d="M-12 150a12 12 0 0 1 24 0Z" class="hat"/>
+          <rect x="-14" y="148" width="28" height="3.5" rx="1.5" class="hat"/>
+          <g class="stp stp2">
+            <rect x="-26" y="136" width="52" height="102" rx="3" class="det"/>
+            <rect x="-26" y="118" width="92" height="18" rx="3" class="det-tag"/>
+            <text x="-20" y="131" class="det-t">person 0.99</text>
+          </g>
+        </g></g>
+        <g transform="translate(430 0)"><g class="drive">
+          <rect x="0" y="226" width="46" height="5" rx="1" class="steel"/>
+          <rect x="38" y="196" width="8" height="36" class="steel"/>
+          <rect x="44" y="140" width="7" height="92" class="mast"/>
+          <rect x="54" y="140" width="5" height="92" class="mast"/>
+          <path d="M66 190V148H124V190" class="guard"/>
+          <circle cx="98" cy="166" r="9" class="skin"/>
+          <path d="M88 164a10 10 0 0 1 20 0Z" class="hat"/>
+          <rect x="88" y="174" width="20" height="18" rx="5" class="jeans"/>
+          <rect x="58" y="190" width="94" height="36" rx="6" class="fork-body"/>
+          <rect x="128" y="170" width="28" height="56" rx="6" class="fork-cw"/>
+          <g transform="translate(80 224)"><g class="roll"><circle r="12" class="tyre"/><path d="M0-7V7M-7 0H7" class="hub"/></g></g>
+          <g transform="translate(136 224)"><g class="roll"><circle r="12" class="tyre"/><path d="M0-7V7M-7 0H7" class="hub"/></g></g>
+          <g class="stp stp2">
+            <rect x="-6" y="132" width="168" height="106" rx="3" class="det w"/>
+            <rect x="-6" y="114" width="76" height="18" rx="3" class="det-tag w"/>
+            <text x="0" y="127" class="det-t">forklift</text>
+          </g>
+          <g class="stp pp stp4"><g transform="translate(126 94)"><g class="pulse"><path d="M0-20 21 16H-21Z" class="alert-b"/><text y="11" text-anchor="middle" class="alert-t">!</text></g></g></g>
+        </g></g>
+        <g class="stp pp stp3"><circle cx="106" cy="50" r="4" class="think"/><circle cx="120" cy="40" r="6" class="think"/><rect x="132" y="8" width="244" height="40" rx="20" class="think"/><text x="254" y="34" text-anchor="middle" class="think-t">worker in forklift path</text></g>
+        <g class="stp pp stp5"><rect x="134" y="242" width="226" height="28" rx="14" class="opt-p"/><text x="247" y="261" text-anchor="middle" class="opt-t">Large → Nano · power −40%</text></g>
+      </svg></div>
+      <div class="flow" id="storyFlow"><span>See</span><span>Detect</span><span>Reason</span><span>Act</span><span>Optimize</span></div>
+    </div>
+
+    <div class="scene">
+      <span class="kick">Live demo result</span>
+      <h3>The agent cut GPU power from about 50&nbsp;W to 30&nbsp;W, and frames got <em>faster.</em></h3>
+      <div class="viz"><svg viewBox="0 0 720 320" aria-hidden="true">
+        <path d="M184 240A176 176 0 0 1 536 240" class="g-track"/>
+        <path d="M184 240A176 176 0 0 1 536 240" class="g-arc" stroke="url(#gGauge)"/>
+        <g id="gTicks"></g>
+        <g id="gNeedle" transform="rotate(60 360 240)"><path d="M353 240 360 96 367 240Z" class="g-needle"/></g>
+        <circle cx="360" cy="240" r="14" class="g-pivot"/>
+        <text x="360" y="306" text-anchor="middle" class="g-num"><tspan id="storyW">50</tspan><tspan class="g-unit" dx="8">W</tspan></text>
+        <text x="80" y="176" text-anchor="middle" class="st-sm">AI model</text>
+        <rect x="10" y="190" width="140" height="44" rx="22" class="tg-bg"/>
+        <rect x="80" y="194" width="66" height="36" rx="18" class="tg-knob"/>
+        <text x="47" y="218" text-anchor="middle" class="tg-a">Large</text>
+        <text x="113" y="218" text-anchor="middle" class="tg-b">Nano</text>
+        <text x="640" y="176" text-anchor="middle" class="st-sm">frames / s</text>
+        <text x="640" y="232" text-anchor="middle" class="g-fps" id="storyF">45</text>
+      </svg></div>
+    </div>
+
+    <div class="scene">
+      <span class="kick">Help us build it</span>
+      <h3>Four papers in 2026. Nine months to an open-source framework. <em>AI that eats less.</em></h3>
+      <div class="viz"><svg viewBox="0 0 720 320" aria-hidden="true"><g mask="url(#mFade)">
+        <rect width="720" height="320" fill="url(#gDawn)"/>
+        <g class="sunrise"><g transform="translate(360 214)">
+          <circle r="130" fill="url(#gGlow)"/>
+          <g class="spin" style="--t:40s"><path class="sun-rays" d="M0-60V-82M0 60V82M-60 0H-82M60 0H82M42.4-42.4 58-58M-42.4 42.4-58 58M42.4 42.4 58 58M-42.4-42.4-58-58"/></g>
+          <circle r="48" fill="url(#gSun)"/>
+        </g></g>
+        <g class="drift" style="--dx:34px;--t:9s"><use href="#i-cloud" x="80" y="58" width="130" height="65" class="st-cloud"/></g>
+        <g class="drift" style="--dx:-28px;--t:11s"><use href="#i-cloud" x="520" y="34" width="150" height="75" class="st-cloud"/></g>
+        <g class="drift" style="--dx:20px;--t:7s"><use href="#i-cloud" x="250" y="112" width="84" height="42" class="st-cloud" opacity=".85"/></g>
+        <g class="pop" style="--d:.8s;--o:50% 100%">
+          <rect x="398" y="196" width="120" height="74" rx="3" class="st-bldg"/>
+          <g data-win="398,196,120,74" data-g="1"></g>
+          <path d="M400 196 408 182H432L424 196Z" class="panel"/><path d="M429 196 437 182H461L453 196Z" class="panel"/>
+          <path d="M458 196 466 182H490L482 196Z" class="panel"/><path d="M487 196 495 182H519L511 196Z" class="panel"/>
+          <path d="M400 196 408 182H432L424 196Z" class="glint" style="--d:1.6s"/><path d="M429 196 437 182H461L453 196Z" class="glint" style="--d:1.9s"/>
+          <path d="M458 196 466 182H490L482 196Z" class="glint" style="--d:2.2s"/><path d="M487 196 495 182H519L511 196Z" class="glint" style="--d:2.5s"/>
+        </g>
+        <g class="pop" style="--d:1.1s;--o:50% 100%"><path d="M603 286 604.5 170H607.5L609 286Z" class="tower"/>
+          <g transform="translate(606 170)"><g class="spin" style="--t:4s"><path d="M0 0C4-8 4-26 0-40C-3-26-3-8 0 0Z" class="tower"/><path d="M0 0C4-8 4-26 0-40C-3-26-3-8 0 0Z" class="tower" transform="rotate(120)"/><path d="M0 0C4-8 4-26 0-40C-3-26-3-8 0 0Z" class="tower" transform="rotate(240)"/></g><circle r="4" class="tower"/></g></g>
+        <g class="pop" style="--d:1.3s;--o:50% 100%"><path d="M654 302 655.5 192H658.5L660 302Z" class="tower"/>
+          <g transform="translate(657 192) scale(.8)"><g class="spin" style="--t:5s"><path d="M0 0C4-8 4-26 0-40C-3-26-3-8 0 0Z" class="tower"/><path d="M0 0C4-8 4-26 0-40C-3-26-3-8 0 0Z" class="tower" transform="rotate(120)"/><path d="M0 0C4-8 4-26 0-40C-3-26-3-8 0 0Z" class="tower" transform="rotate(240)"/></g><circle r="4" class="tower"/></g></g>
+        <g transform="translate(170 270)"><g class="pop" style="--d:1.5s;--o:50% 100%"><rect x="-3" y="-24" width="6" height="24" class="tree-t"/><circle cy="-34" r="16" class="tree-c"/></g></g>
+        <g transform="translate(204 262)"><g class="pop" style="--d:1.7s;--o:50% 100%"><rect x="-3" y="-28" width="6" height="28" class="tree-t"/><circle cy="-40" r="19" class="tree-c2"/></g></g>
+        <g transform="translate(240 256)"><g class="pop" style="--d:1.9s;--o:50% 100%"><rect x="-3" y="-22" width="6" height="22" class="tree-t"/><circle cy="-32" r="15" class="tree-c"/></g></g>
+        <g transform="translate(282 251)"><g class="pop" style="--d:2.1s;--o:50% 100%"><rect x="-3" y="-26" width="6" height="26" class="tree-t"/><circle cy="-38" r="18" class="tree-c2"/></g></g>
+        <g transform="translate(320 248)"><g class="pop" style="--d:2.3s;--o:50% 100%"><rect x="-3" y="-20" width="6" height="20" class="tree-t"/><circle cy="-29" r="13" class="tree-c"/></g></g>
+        <circle cx="360" cy="1060" r="820" fill="url(#gLand)"/>
+        <circle cx="360" cy="1060" r="820" class="horizon-rim"/>
+      </g></svg></div>
+    </div>
+  </div>
+  <div class="story-ctl">
+    <button class="icon-btn" type="button" id="stPrev" aria-label="Previous scene">←</button>
+    <button class="icon-btn" type="button" id="stPlay" aria-label="Pause">❚❚</button>
+    <button class="icon-btn" type="button" id="stNext" aria-label="Next scene">→</button>
+    <span class="cap" id="stCap">1 / 7</span>
+  </div>
+</main>
+
+<script>
+(()=>{
+'use strict';
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const NS='http://www.w3.org/2000/svg';
+const S=(tag,attrs={},text)=>{const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;return e};
+
+/* ================= 1-MINUTE STORY ================= */
+const story=$('#story'),scenes=$$('.scene',story),DUR=7500;const ST={i:0,play:true,t0:0,elapsed:0,raf:0};
+const segsEl=$('#segs');scenes.forEach(()=>{const i=document.createElement('i');i.append(document.createElement('b'));segsEl.append(i)});
+const flow=$$('#storyFlow span'),edgeScene=$('#storyFlow').closest('.scene'),gaugeScene=$('#gNeedle').closest('.scene');
+// repeated parts of the illustrations: stars, server racks, windows, shelves, gauge ticks
+(()=>{const r=(a,b)=>a+Math.random()*(b-a),f=(n,d=1)=>n.toFixed(d);
+  const sky=$('#stars');for(let k=0;k<90;k++)sky.append(S('circle',{cx:f(r(0,1600),0),cy:f(r(0,900),0),r:f(r(.6,1.7)),style:`animation-delay:${f(r(-4,0),2)}s;animation-duration:${f(r(2.4,5))}s`}));
+  const rk=$('#dcRacks');[532,584,636].forEach(x=>{for(let y=186;y<=270;y+=12){rk.append(S('rect',{x,y,width:44,height:8,rx:2,class:'st-unit'}));rk.append(S('circle',{cx:x+37,cy:y+4,r:2.2,class:'led'+(Math.random()<.2?' w':''),style:`--d:${f(r(-2,0),2)}s;--t:${f(r(.6,1.8),2)}s`}))}});
+  $$('[data-win]',story).forEach(g=>{const[x,y,w,h]=g.dataset.win.split(',').map(Number),cols=Math.floor((w-12)/19),cls='win'+(g.dataset.g?' g':'');
+    for(let yy=y+12;yy<=y+h-14;yy+=13)for(let c=0;c<cols;c++)g.append(S('rect',{x:f(x+(w-cols*19+8)/2+c*19),y:f(yy),width:11,height:6,rx:1.5,class:cls,style:`--d:${f(r(-5,0),2)}s;--t:${f(r(2,6))}s`}))});
+  $$('[data-shelf]',story).forEach(g=>{const x=+g.dataset.shelf;[0,134].forEach(dx=>g.append(S('rect',{x:x+dx,y:96,width:6,height:140,class:'shelf'})));
+    [128,170,212].forEach(y=>g.append(S('rect',{x,y,width:140,height:5,class:'shelf'})));
+    [[12,104,30,24],[48,110,22,18],[80,100,40,28],[10,146,44,24],[62,150,26,20],[96,144,30,26],[14,188,36,24],[58,184,48,28]].forEach(([dx,y,w,h],k)=>g.append(S('rect',{x:x+dx,y,width:w,height:h,rx:2,class:k%2?'box2':'box1'})))});
+  const gt=$('#gTicks');for(let v=0;v<=60;v+=5){const a=(180-v*3)*Math.PI/180,big=v%10===0,c=Math.cos(a),s=Math.sin(a),r1=big?148:154;
+    gt.append(S('line',{x1:f(360+r1*c),y1:f(240-r1*s),x2:f(360+164*c),y2:f(240-164*s),class:big?'gt-b':'gt-s'}));
+    if(big)gt.append(S('text',{x:f(360+198*c),y:f(240-198*s+6),'text-anchor':'middle',class:'st-sm'},v))}
+})();
+function setGauge(w){$('#gNeedle').setAttribute('transform',`rotate(${((w-30)*3).toFixed(2)} 360 240)`);$('#storyW').textContent=Math.round(w);$('#storyF').textContent=Math.round(45+(50-w)*.7)}
+// timed states follow the player clock, so pausing freezes them along with the animations
+function sceneUpdate(el){const sc=scenes[ST.i];
+  if(sc===edgeScene){const k=Math.min(5,Math.floor(el/700));flow.forEach((s,j)=>s.classList.toggle('lit',j<k));for(let j=1;j<=5;j++)sc.classList.toggle('st'+j,j<=k)}
+  else if(sc===gaugeScene)setGauge(50-Math.max(0,Math.min(20,(el-900)/80)))}
+function showScene(i){ST.i=(i+scenes.length)%scenes.length;ST.elapsed=0;ST.t0=performance.now();
+  scenes.forEach((s,k)=>s.classList.toggle('on',k===ST.i));
+  $$('i',segsEl).forEach((s,k)=>{s.classList.toggle('past',k<ST.i);$('b',s).style.width=k<ST.i?'100%':'0'});
+  $('#stCap').textContent=`${ST.i+1} / ${scenes.length}`;
+  sceneUpdate(reduce?Infinity:0);
+}
+function tick(ts){ST.raf=requestAnimationFrame(tick);if(!ST.play)return;const el=ST.elapsed+(ts-ST.t0);const b=$$('i',segsEl)[ST.i];if(b)$('b',b).style.width=Math.min(100,el/DUR*100)+'%';
+  sceneUpdate(el);
+  if(el>=DUR){if(ST.i===scenes.length-1){setPlay(false);return}showScene(ST.i+1)}}
+function setPlay(v){if(v&&!ST.play)ST.t0=performance.now();if(!v&&ST.play)ST.elapsed+=performance.now()-ST.t0;ST.play=v;story.classList.toggle('paused',!v);$('#stPlay').textContent=v?'❚❚':'▶';$('#stPlay').setAttribute('aria-label',v?'Pause':'Play')}
+// stepping to another scene resumes playback, so its animations are not frozen at the start
+const go=d=>{showScene(ST.i+d);if(!reduce&&!ST.play)setPlay(true)};
+$('#stPrev').addEventListener('click',()=>go(-1));
+$('#stNext').addEventListener('click',()=>go(1));
+$('#stPlay').addEventListener('click',()=>{if(!ST.play&&ST.i===scenes.length-1&&ST.elapsed>=DUR)showScene(0);setPlay(!ST.play)});
+
+document.addEventListener('keydown',e=>{
+  if(e.metaKey||e.ctrlKey||e.altKey)return;
+  if(e.key==='ArrowRight')go(1);
+  else if(e.key==='ArrowLeft')go(-1);
+  else if(e.key===' '&&e.target.tagName!=='BUTTON'&&e.target.tagName!=='A'){e.preventDefault();$('#stPlay').click()}
+  else if(e.key.toLowerCase()==='f'&&!$('#stFull').hidden)toggleFull();
+});
+// a hidden tab stops the clock, so the story would jump ahead on return: pause instead
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&ST.play)setPlay(false)});
+
+/* full screen, for showing the story at the event or recording it */
+function toggleFull(){
+  if(!document.fullscreenElement){const r=document.documentElement.requestFullscreen();r&&r.catch&&r.catch(()=>{})}
+  else document.exitFullscreen&&document.exitFullscreen();
+}
+if(document.fullscreenEnabled){$('#stFull').hidden=false;$('#stFull').addEventListener('click',toggleFull)}
+
+/* start playing as soon as the page opens */
+ST.play=!reduce;setPlay(!reduce);showScene(0);ST.raf=requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
